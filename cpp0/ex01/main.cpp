@@ -6,7 +6,7 @@
 /*   By: igomez-p <igomez-p@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/27 12:04:47 by igomez-p          #+#    #+#             */
-/*   Updated: 2022/03/27 14:06:06 by igomez-p         ###   ########.fr       */
+/*   Updated: 2022/03/27 14:17:01 by igomez-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,6 @@ int main(void)
 {
     PhoneBook phonebook;
 
-    while (phonebook.read_command()) {}
+    while (!phonebook.read_command()) {}
     return (0);
 }

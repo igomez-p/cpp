@@ -6,7 +6,7 @@
 /*   By: igomez-p <igomez-p@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/27 09:26:06 by igomez-p          #+#    #+#             */
-/*   Updated: 2022/03/27 14:04:12 by igomez-p         ###   ########.fr       */
+/*   Updated: 2022/03/27 16:30:50 by igomez-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,27 +26,32 @@ PhoneBook::~PhoneBook()
         this->contacts[i].setIndex(-1);
 }
 
-int PhoneBook::read_command()
+bool PhoneBook::read_command()
 {
-    std::string cmd;
-    int index;
+    std::string index;
+//    int index;
     Contact pers;
+    bool exit = false;
 
+    this->command.clear();
     std::cout << "Insert command: ";
-    std::cin >> cmd;
+    std::cin >> this->command;
 
-    if (cmd.compare(ADD) == 0)
+    if (this->command.compare(ADD) == 0)
         this->add_contact(this->getNextIndex(), pers);
-    else if (cmd.compare(SEARCH) == 0)
+    else if (this->command.compare(SEARCH) == 0)
     {
-        this->print_contacts();
-        std::cout << "Insert index: ";
-        std::cin >> index;
-        this->search_contact(index);
+        if (!this->print_contacts())
+        {
+            std::cout << "Insert index: ";
+            getline(std::cin, index);
+            if (index.length() == 1 && std::isdigit(index[0]))
+               this->search_contact(index[0] - '0');
+        }
     }
-    else if (cmd.compare(EXIT) == 0)
-        return (0);
-    return (1);
+    else if (this->command.compare(EXIT) == 0)
+        exit = true;
+    return (exit);
 }
 
 void PhoneBook::add_contact(int index, Contact pers)
@@ -54,18 +59,18 @@ void PhoneBook::add_contact(int index, Contact pers)
     std::string name1, name2, nick, phone, secret;
 
     std::cout << "Insert first name: ";
-    std::cin >> name1;
+    getline(std::cin, name1); // TODO: Lee nombre y apellido seguidos, se salta este getline
     std::cout << "Insert last name: ";
-    std::cin >> name2;
+    getline(std::cin, name2);
     std::cout << "Insert nickname: ";
-    std::cin >> nick;
+    getline(std::cin, nick);
     std::cout << "Insert phone: ";
-    std::cin >> phone;
+    getline(std::cin, phone);
     std::cout << "Insert darkest secret: ";
-    std::cin >> secret;
+    getline(std::cin, secret);
 
     pers = Contact(this->getNextIndex(), name1, name2, nick, phone, secret);
-    this->add_contact(index, pers);
+    this->contacts[this->getNextIndex()] = pers;
 }
 
 void PhoneBook::search_contact(int index)
@@ -74,24 +79,31 @@ void PhoneBook::search_contact(int index)
         if (c.getIndex() == index) c.getContact(index);
 }
 
-void PhoneBook::print_contacts()
+bool PhoneBook::print_contacts()
 {
+    bool empty = true;
+
     for (Contact c : this->contacts)
     {
-        std::cout << std::setw(9) << c.getIndex() << "|";
-        if (c.getFirstName().length() >= 10)
-            std::cout << c.getFirstName().substr(0, 9) << ".|";
-        else
-            std::cout << std::setw(10 - c.getFirstName().length()) << c.getFirstName() << "|";
-        if (c.getLastName().length() >= 10)
-            std::cout << c.getLastName().substr(0, 9) << ".|";
-        else
-            std::cout << std::setw(10 - c.getLastName().length()) << c.getLastName() << "|";
-        if (c.getNickname().length() >= 10)
-            std::cout << c.getNickname().substr(0, 9) << ".|" << std::endl;
-        else
-            std::cout << std::setw(10 - c.getNickname().length()) << c.getNickname() << "|" << std::endl;
+        if (c.getIndex() != -1)
+        {
+            std::cout << "|" << std::setw(10) << c.getIndex() << "|";
+            if (c.getFirstName().length() >= 10)
+                std::cout << c.getFirstName().substr(0, 9) << ".|";
+            else
+                std::cout << std::setw(10) << c.getFirstName() << "|";
+            if (c.getLastName().length() >= 10)
+                std::cout << c.getLastName().substr(0, 9) << ".|";
+            else
+                std::cout << std::setw(10) << c.getLastName() << "|";
+            if (c.getNickname().length() >= 10)
+                std::cout << c.getNickname().substr(0, 9) << ".|" << std::endl;
+            else
+                std::cout << std::setw(10) << c.getNickname() << "|" << std::endl;
+            empty = false;
+        }
     }
+    return (empty);
 }
 
 int PhoneBook::getNextIndex()
@@ -99,6 +111,10 @@ int PhoneBook::getNextIndex()
     int index = 0;
 
     for (Contact c : this->contacts)
-        if (c.getIndex() != -1) index++;
+    {
+        if (c.getIndex() == -1) break;
+        else index++;
+    }
+    if (index == 8) index = 0;
     return (index);
 }
