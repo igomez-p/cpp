@@ -6,7 +6,7 @@
 /*   By: igomez-p <igomez-p@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/27 09:26:06 by igomez-p          #+#    #+#             */
-/*   Updated: 2022/03/27 17:45:00 by igomez-p         ###   ########.fr       */
+/*   Updated: 2022/03/27 18:38:27 by igomez-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ void PhoneBook::add_contact(int index, Contact pers)
 
     pers = Contact(this->getNextIndex(), name1, name2, nick, phone, secret);
     this->contacts[this->getNextIndex()] = pers;
+    this->setNum(this->getNextIndex() + 1);
 }
 
 void PhoneBook::search_contact(int index)
@@ -120,12 +121,9 @@ int PhoneBook::getNextIndex()
 {
     int index = 0;
 
-    for (Contact c : this->contacts)
-    {
-        if (c.getIndex() == -1) break;
-        else index++;
-    }
-    if (index == 8) index = 0;
+    if (this->getNum() == 8) index = 0;
+    else                     index = this->getNum();
+
     return (index);
 }
 
