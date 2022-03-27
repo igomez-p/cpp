@@ -6,7 +6,7 @@
 /*   By: igomez-p <igomez-p@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/27 09:26:06 by igomez-p          #+#    #+#             */
-/*   Updated: 2022/03/27 16:30:50 by igomez-p         ###   ########.fr       */
+/*   Updated: 2022/03/27 17:45:00 by igomez-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 PhoneBook::PhoneBook()
 {
+    this->num = 0;
     this->command = "";
     for (int i = 0; i < 8; i++)
         this->contacts[i].setIndex(-1);
@@ -21,6 +22,7 @@ PhoneBook::PhoneBook()
 
 PhoneBook::~PhoneBook()
 {
+    this->num = 0;
     this->command = "";
     for (int i = 0; i < 8; i++)
         this->contacts[i].setIndex(-1);
@@ -29,13 +31,13 @@ PhoneBook::~PhoneBook()
 bool PhoneBook::read_command()
 {
     std::string index;
-//    int index;
     Contact pers;
     bool exit = false;
 
     this->command.clear();
-    std::cout << "Insert command: ";
+    std::cout << "\nInsert command: ";
     std::cin >> this->command;
+    std::cout << std::endl;
 
     if (this->command.compare(ADD) == 0)
         this->add_contact(this->getNextIndex(), pers);
@@ -45,12 +47,17 @@ bool PhoneBook::read_command()
         {
             std::cout << "Insert index: ";
             getline(std::cin, index);
+            getline(std::cin, index);
             if (index.length() == 1 && std::isdigit(index[0]))
                this->search_contact(index[0] - '0');
+            else
+                std::cout << "Incorrect index!\n";
         }
     }
     else if (this->command.compare(EXIT) == 0)
         exit = true;
+    else
+        std::cout << "Incorrect command (availables: ADD, SEARCH and EXIT)\n";
     return (exit);
 }
 
@@ -59,7 +66,8 @@ void PhoneBook::add_contact(int index, Contact pers)
     std::string name1, name2, nick, phone, secret;
 
     std::cout << "Insert first name: ";
-    getline(std::cin, name1); // TODO: Lee nombre y apellido seguidos, se salta este getline
+    getline(std::cin, name1);
+    getline(std::cin, name1);
     std::cout << "Insert last name: ";
     getline(std::cin, name2);
     std::cout << "Insert nickname: ";
@@ -83,6 +91,7 @@ bool PhoneBook::print_contacts()
 {
     bool empty = true;
 
+    std::cout << "---------------------------------------------\n";
     for (Contact c : this->contacts)
     {
         if (c.getIndex() != -1)
@@ -103,6 +112,7 @@ bool PhoneBook::print_contacts()
             empty = false;
         }
     }
+    std::cout << "---------------------------------------------\n";
     return (empty);
 }
 
@@ -118,3 +128,6 @@ int PhoneBook::getNextIndex()
     if (index == 8) index = 0;
     return (index);
 }
+
+void PhoneBook::setNum(int num) { this->num = num; }
+int PhoneBook::getNum() { return (this->num); }

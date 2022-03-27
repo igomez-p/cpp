@@ -6,7 +6,7 @@
 /*   By: igomez-p <igomez-p@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/27 09:40:54 by igomez-p          #+#    #+#             */
-/*   Updated: 2022/03/27 14:05:29 by igomez-p         ###   ########.fr       */
+/*   Updated: 2022/03/27 17:04:01 by igomez-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,13 @@ void Contact::getContact(int index)
 {
     if (this->index == index)
     {
+        std::cout << "--------------------------------\n";
         std::cout << "First name:     " << this->first_name << std::endl;
         std::cout << "Last name:      " << this->last_name << std::endl;
         std::cout << "Nickname:       " << this->nickname << std::endl;
         std::cout << "Phone:          " << this->phone << std::endl;
         std::cout << "Darkest secret: " << this->darkest_secret << std::endl;
+        std::cout << "--------------------------------\n";
     }
 }
 
