@@ -6,9 +6,13 @@
 /*   By: igomez-p <igomez-p@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/27 09:26:10 by igomez-p          #+#    #+#             */
-/*   Updated: 2022/03/27 17:13:57 by igomez-p         ###   ########.fr       */
+/*   Updated: 2022/03/28 14:58:59 by igomez-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#pragma once
+#ifndef __PHONEBOOK_H__
+#define __PHONEBOOK_H__
 
 #include <iostream>
 #include <string>
@@ -37,3 +41,5 @@ public:
     void setNum(int num);
     int getNum();
 };
+
+#endif

@@ -6,9 +6,13 @@
 /*   By: igomez-p <igomez-p@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/27 09:40:56 by igomez-p          #+#    #+#             */
-/*   Updated: 2022/03/27 14:03:46 by igomez-p         ###   ########.fr       */
+/*   Updated: 2022/03/28 14:59:20 by igomez-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#pragma once
+#ifndef __CONTACT_H__
+#define __CONTACT_H__
 
 #include <iostream>
 #include <string>
@@ -36,3 +40,5 @@ public:
     int getIndex();
     void setIndex(int index);
 };
+
+#endif
